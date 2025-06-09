@@ -94,26 +94,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalCargo = document.getElementById('modalCargo');
   const closeBtn = document.querySelector('.modal .close');
 
-  document.querySelectorAll('.card').forEach(card => {
-  card.addEventListener('click', openModal);
-  card.addEventListener('touchstart', openModal); // ← Soporte para móviles
+ cument.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('click', () => {
+    const imgSrc = card.querySelector('img')?.src || '';
+    const nombre = card.querySelector('p')?.textContent || '';
+    const cargo = card.querySelector('h3')?.textContent || '';
+
+    modalImg.src = imgSrc;
+    modalTitulo.textContent = nombre;
+    modalCargo.textContent = cargo;
+    modalDescripcion.textContent = ""; // Agrega texto si lo deseas
+
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  });
 });
-
-function openModal(e) {
-  const card = e.currentTarget;
-  const imgSrc = card.querySelector('img')?.src || '';
-  const nombre = card.querySelector('p')?.textContent || '';
-  const cargo = card.querySelector('h3')?.textContent || '';
-  const descripcion = card.getAttribute('data-tooltip') || '';
-
-  modalImg.src = imgSrc;
-  modalTitulo.textContent = nombre;
-  modalCargo.textContent = cargo;
-  modalDescripcion.textContent = descripcion;
-
-  modal.style.display = 'flex';
-  document.body.style.overflow = 'hidden';
-}
 
 
     // soporte para teclado
