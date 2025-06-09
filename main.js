@@ -92,4 +92,41 @@ window.addEventListener('scroll', () => {
   });
 });
 
+// Modal de miembros
+const modal = document.getElementById('miembroModal');
+const modalImg = document.getElementById('modalImg');
+const modalTitulo = document.getElementById('modalTitulo');
+const modalDescripcion = document.getElementById('modalDescripcion');
+const modalCargo = document.getElementById('modalCargo');
+const closeBtn = document.querySelector('.modal .close');
+
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('click', () => {
+    const imgSrc = card.querySelector('img')?.src || '';
+    const nombre = card.querySelector('p')?.textContent || '';
+    const cargo = card.querySelector('h3')?.textContent || '';
+
+    modalImg.src = imgSrc;
+    modalTitulo.textContent = nombre;
+    modalCargo.textContent = cargo;
+    modalDescripcion.textContent = ""; // Agrega texto si lo deseas
+
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  });
+});
+
+closeBtn.addEventListener('click', () => {
+  modal.style.display = 'none';
+  document.body.style.overflow = '';
+});
+
+window.addEventListener('click', (e) => {
+  if (e.target === modal) {
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+});
+
+
 
