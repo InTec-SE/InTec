@@ -94,22 +94,22 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalCargo = document.getElementById('modalCargo');
   const closeBtn = document.querySelector('.modal .close');
 
- cument.querySelectorAll('.card').forEach(card => {
-  card.addEventListener('click', () => {
-    const imgSrc = card.querySelector('img')?.src || '';
-    const nombre = card.querySelector('p')?.textContent || '';
-    const cargo = card.querySelector('h3')?.textContent || '';
+  document.querySelectorAll('.card').forEach(card => {
+    card.setAttribute('tabindex', '0'); // accesibilidad
+    card.addEventListener('click', () => {
+      const imgSrc = card.querySelector('img')?.src || '';
+      const nombre = card.querySelector('p')?.textContent || '';
+      const cargo = card.querySelector('h3')?.textContent || '';
+      const descripcion = card.getAttribute('data-tooltip') || '';
 
-    modalImg.src = imgSrc;
-    modalTitulo.textContent = nombre;
-    modalCargo.textContent = cargo;
-    modalDescripcion.textContent = ""; // Agrega texto si lo deseas
+      modalImg.src = imgSrc;
+      modalTitulo.textContent = nombre;
+      modalCargo.textContent = cargo;
+      modalDescripcion.textContent = descripcion;
 
-    modal.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-  });
-});
-
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    });
 
     // soporte para teclado
     card.addEventListener('keypress', (e) => {
