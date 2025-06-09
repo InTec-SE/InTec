@@ -95,21 +95,26 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeBtn = document.querySelector('.modal .close');
 
   document.querySelectorAll('.card').forEach(card => {
-    card.setAttribute('tabindex', '0'); // accesibilidad
-    card.addEventListener('click', () => {
-      const imgSrc = card.querySelector('img')?.src || '';
-      const nombre = card.querySelector('p')?.textContent || '';
-      const cargo = card.querySelector('h3')?.textContent || '';
-      const descripcion = card.getAttribute('data-tooltip') || '';
+  card.addEventListener('click', openModal);
+  card.addEventListener('touchstart', openModal); // ← Soporte para móviles
+});
 
-      modalImg.src = imgSrc;
-      modalTitulo.textContent = nombre;
-      modalCargo.textContent = cargo;
-      modalDescripcion.textContent = descripcion;
+function openModal(e) {
+  const card = e.currentTarget;
+  const imgSrc = card.querySelector('img')?.src || '';
+  const nombre = card.querySelector('p')?.textContent || '';
+  const cargo = card.querySelector('h3')?.textContent || '';
+  const descripcion = card.getAttribute('data-tooltip') || '';
 
-      modal.style.display = 'flex';
-      document.body.style.overflow = 'hidden';
-    });
+  modalImg.src = imgSrc;
+  modalTitulo.textContent = nombre;
+  modalCargo.textContent = cargo;
+  modalDescripcion.textContent = descripcion;
+
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
 
     // soporte para teclado
     card.addEventListener('keypress', (e) => {
