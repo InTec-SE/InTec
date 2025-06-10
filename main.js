@@ -105,11 +105,12 @@ document.querySelectorAll('.card').forEach(card => {
     const imgSrc = card.querySelector('img')?.src || '';
     const nombre = card.querySelector('p')?.textContent || '';
     const cargo = card.querySelector('h3')?.textContent || '';
+    const descripcion = card.getAttribute('data-tooltip') || ''; // ← Aquí se toma el tooltip
 
     modalImg.src = imgSrc;
     modalTitulo.textContent = nombre;
     modalCargo.textContent = cargo;
-    modalDescripcion.textContent = ""; // Agrega texto si lo deseas
+    modalDescripcion.textContent = descripcion; // ← Se muestra el tooltip en el modal
 
     modal.style.display = 'flex';
     document.body.style.overflow = 'hidden';
@@ -127,4 +128,3 @@ window.addEventListener('click', (e) => {
     document.body.style.overflow = '';
   }
 });
-
