@@ -26,6 +26,7 @@ backToTopBtn.addEventListener('click', () => {
 // --- Header hide/show y sombra al hacer scroll ---
 let lastScrollTop = 0;
 const header = document.querySelector('header.main-header');
+const scrollProgressBar = document.getElementById('scrollProgress');
 
 window.addEventListener('scroll', () => {
   const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
@@ -42,6 +43,13 @@ window.addEventListener('scroll', () => {
 
   // Sombra
   header.classList.toggle('scrolled', scrollTop > 10);
+
+  // Actualizar la barra de progreso de desplazamiento
+  if (scrollProgressBar) {
+    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+    scrollProgressBar.style.width = `${scrolled}%`;
+  }
 
   lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
 });

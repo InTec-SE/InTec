@@ -1,20 +1,52 @@
+/* === ROOT VARIABLES === */
+/*
+ * We define a handful of CSS custom properties to centralise the core
+ * colours and typographic settings of the site. By using variables
+ * throughout the stylesheet we make it trivial to adjust the palette
+ * later on without hunting down magic values. The palette is inspired
+ * by the existing corporate identity of InTec but softened with
+ * lighter tints for improved readability.
+ */
+:root {
+  /* Primary brand colours */
+  --primary-color: #003366;  /* deep navy base */
+  --secondary-color: #004a80; /* mid tone for gradients */
+  --accent-color: #66ccff;    /* bright accent for highlights */
+  /* Neutrals */
+  --bg-light: #f8faff;       /* very light blue backdrop */
+  --bg-card: #ffffff;        /* card backgrounds */
+  --text-color: #333333;     /* default text colour */
+  /* Shadow helpers */
+  --shadow-small: 0 4px 10px rgba(0, 0, 0, 0.05);
+  --shadow-medium: 0 12px 20px rgba(0, 0, 0, 0.12);
+  --shadow-large: 0 25px 50px rgba(0, 0, 0, 0.2);
+}
+
 /* === RESET GLOBAL === */
 html, body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
   font-family: 'Poppins', sans-serif;
-  background-color: #f4f6fa;
-  color: #333;
+  background-color: var(--bg-light);
+  color: var(--text-color);
 }
 
 /* === HEADER === */
 header.main-header {
-  background-color: #003366;
-  color: white;
+  /* Use a subtle linear gradient instead of a flat colour to give
+     depth and sophistication to the masthead. The background is
+     semi‑transparent so that a blur effect applied when scrolled
+     becomes visible on supported browsers. */
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: #ffffff;
   text-align: center;
-  padding: 2rem;
-  transition: transform 0.4s ease;
+  padding: 2rem 1rem;
+  transition: transform 0.4s ease, background-color 0.4s ease, backdrop-filter 0.4s ease;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  backdrop-filter: none;
 }
 
 header.main-header.hide-nav {
@@ -22,7 +54,12 @@ header.main-header.hide-nav {
 }
 
 header.main-header.scrolled {
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  /* When the page is scrolled the header receives a blurred
+     translucent background and a slightly stronger shadow to
+     clearly separate it from the content. */
+  background-color: rgba(0, 51, 102, 0.85);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
 }
 
 header.main-header h1 {
@@ -44,9 +81,9 @@ header.main-header nav {
 }
 
 .nav-links a {
-  color: white;
+  color: #ffffff;
   text-decoration: none;
-  font-weight: bold;
+  font-weight: 600;
   position: relative;
   overflow: hidden;
   transition: color 0.3s ease;
@@ -59,7 +96,7 @@ header.main-header nav {
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: #66ccff;
+  background-color: var(--accent-color);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.3s ease;
@@ -70,15 +107,15 @@ header.main-header nav {
 }
 
 .nav-links a:hover {
-  color: #66ccff;
+  color: var(--accent-color);
 }
 
 .nav-links a.active {
-  border-bottom: 2px solid #66ccff;
+  border-bottom: 2px solid var(--accent-color);
 }
 
 .nav-links a:focus {
-  outline: 2px solid #66ccff;
+  outline: 2px solid var(--accent-color);
   outline-offset: 4px;
 }
 
@@ -88,6 +125,16 @@ header.main-header nav {
   opacity: 0;
   transform: translateY(40px);
   transition: opacity 0.8s ease, transform 0.8s ease;
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+
+/* light background section variant */
+.blue-bg {
+  background-color: var(--bg-light);
 }
 
 .section.visible {
@@ -97,15 +144,15 @@ header.main-header nav {
 
 /* === CARD === */
 .card {
-  background: white;
-  border-radius: 10px;
+  background: var(--bg-card);
+  border-radius: 12px;
   text-align: center;
-  padding: 1rem;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-small);
   position: relative;
   opacity: 0;
   transform: translateY(30px);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.3s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.3s ease;
 }
 
 .card.visible {
@@ -115,7 +162,7 @@ header.main-header nav {
 
 .card:hover {
   transform: translateY(-8px) scale(1.03);
-  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--shadow-medium);
 }
 
 .card img {
@@ -133,7 +180,7 @@ header.main-header nav {
   bottom: -1.2rem;
   left: 50%;
   transform: translateX(-50%) translateY(5px);
-  background-color: #003366;
+  background-color: var(--primary-color);
   color: white;
   padding: 0.4rem 0.6rem;
   font-size: 0.75rem;
@@ -169,35 +216,53 @@ ul {
 }
 
 ul li {
-  background: white;
-  padding: 1.2rem;
+  background: var(--bg-card);
+  padding: 1.2rem 1.5rem;
   margin-bottom: 1rem;
-  border-left: 5px solid #003366;
-  border-radius: 5px;
+  border-left: 4px solid var(--primary-color);
+  border-radius: 6px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 ul li:hover {
   transform: translateY(-4px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-small);
 }
 
 /* === TITULOS === */
 h2 {
   text-align: center;
-  color: #003366;
-  font-size: 2.2rem;
-  margin-bottom: 1.5rem;
+  color: var(--primary-color);
+  font-size: 2.4rem;
+  margin-bottom: 2rem;
 }
 
 /* === FOOTER === */
 footer {
-  background-color: #003366;
+  background-color: var(--primary-color);
   color: white;
   text-align: center;
   padding: 1rem;
   font-size: 0.9rem;
   margin-top: 2rem;
+}
+
+/* === SCROLL PROGRESS BAR === */
+/*
+ * A thin progress bar fixed to the top of the viewport. Its width
+ * expands as the user scrolls down the page. The subtle accent
+ * colour helps orient visitors and provides a sense of progress
+ * through the content.
+ */
+#scrollProgress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 4px;
+  background-color: var(--accent-color);
+  width: 0;
+  z-index: 10000;
+  transition: width 0.1s ease;
 }
 
 /* === LOGO === */
@@ -214,34 +279,34 @@ footer {
 }
 
 .logo-img {
-  width: 100px;
+  width: 110px;
   height: auto;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  border-radius: 14px;
+  box-shadow: var(--shadow-small);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   animation: float 4s ease-in-out infinite;
 }
 
 .logo-img:hover {
   transform: scale(1.1);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+  box-shadow: var(--shadow-medium);
 }
 
 /* === PARTE DE MISIÓN/VISIÓN === */
 .mvv-box {
-  background-color: #eaf3ff;
-  border-top: 5px solid #003366;
-  padding: 1.5rem;
+  background-color: #eef6ff;
+  border-top: 4px solid var(--primary-color);
+  padding: 1.8rem;
   margin: 1rem auto;
-  border-radius: 10px;
+  border-radius: 12px;
   max-width: 900px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  box-shadow: var(--shadow-small);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .mvv-box:hover {
   transform: translateY(-8px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  box-shadow: var(--shadow-medium);
 }
 
 /* === BOTÓN VOLVER ARRIBA === */
@@ -253,8 +318,8 @@ footer {
   font-size: 20px;
   border: none;
   border-radius: 50%;
-  background-color: #003366;
-  color: white;
+  background-color: var(--primary-color);
+  color: #ffffff;
   cursor: pointer;
   display: none;
   z-index: 1000;
@@ -351,15 +416,15 @@ body.fade-out {
   width: 100%;
   margin-top: 2.5rem;
   padding: 2.5rem;
-  background-color: #ffffff;
+  background-color: var(--bg-card);
   border-radius: 16px;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.06);
+  box-shadow: var(--shadow-small);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .suggestion-form:hover {
   transform: translateY(-2px);
-  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-medium);
 }
 
 .suggestion-form input,
@@ -370,7 +435,7 @@ body.fade-out {
   font-size: 1rem;
   font-family: 'Poppins', sans-serif;
   background-color: #f5f8ff;
-  color: #333;
+  color: var(--text-color);
   transition: border-color 0.3s, background-color 0.3s;
 }
 
@@ -381,8 +446,8 @@ body.fade-out {
 
 .suggestion-form input:focus,
 .suggestion-form textarea:focus {
-  border-color: #003366;
-  background-color: #fff;
+  border-color: var(--primary-color);
+  background-color: #ffffff;
   outline: none;
 }
 
@@ -392,7 +457,7 @@ body.fade-out {
 }
 
 .suggestion-form button {
-  background-color: #003366;
+  background-color: var(--primary-color);
   color: #fff;
   padding: 1rem;
   font-weight: 600;
@@ -401,11 +466,11 @@ body.fade-out {
   border-radius: 10px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-small);
 }
 
 .suggestion-form button:hover {
-  background-color: #005599;
+  background-color: var(--secondary-color);
   transform: translateY(-2px);
 }
 
@@ -417,7 +482,7 @@ body.fade-out {
   font-weight: 600;
   text-align: center;
   margin-top: 1rem;
-  color: #003366;
+  color: var(--primary-color);
   font-size: 0.95rem;
 }
 
@@ -434,14 +499,14 @@ body.fade-out {
 }
 
 .modal-content {
-  background-color: #fff;
+  background-color: var(--bg-card);
   border-radius: 18px;
   max-width: 480px;
   width: 90%;
   padding: 2rem;
   text-align: center;
   position: relative;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-large);
   animation: slideUp 0.3s ease-out;
   font-family: 'Poppins', sans-serif;
 }
@@ -451,15 +516,15 @@ body.fade-out {
   height: 130px;
   object-fit: cover;
   border-radius: 50%;
-  border: 5px solid #003366;
+  border: 5px solid var(--primary-color);
   margin-bottom: 1rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--shadow-small);
 }
 
 .modal-content h3 {
   margin: 0;
-  font-size: 1.2rem;
-  color: #003366;
+  font-size: 1.3rem;
+  color: var(--primary-color);
   font-weight: 600;
 }
 
@@ -472,7 +537,7 @@ body.fade-out {
 .modal-content .cargo {
   font-weight: 700;
   font-size: 1rem;
-  color: #003366;
+  color: var(--primary-color);
   margin-bottom: 0.3rem;
 }
 
@@ -481,7 +546,7 @@ body.fade-out {
   top: 16px;
   right: 20px;
   font-size: 1.4rem;
-  color: #003366;
+  color: var(--primary-color);
   font-weight: bold;
   cursor: pointer;
   transition: transform 0.2s ease;
